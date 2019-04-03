@@ -88,6 +88,13 @@ namespace RegHandler
             }
             catch
             {
+                
+                if (name == "Caps Sync")
+                {
+                    Caps_Sync.Logging.Write("A registry entry for StartWithWindows does not exist. This can be safely ignored.", 3);
+                    return "";
+                }
+                Caps_Sync.Logging.Write(String.Format("A registry entry for {0} does not exist, creating it now with default settings.", name), 3);
                 Caps_Sync.Settings.Initialize(name);
             }
             this.Load();

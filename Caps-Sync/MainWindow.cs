@@ -54,6 +54,7 @@ namespace Caps_Sync
 
         public MainWindow()
         {
+            
             SetTimer();
             InitializeComponent();
             consoleForm.Show();
@@ -87,7 +88,7 @@ namespace Caps_Sync
 
         public static string StatusText()
         {
-            if (Client.connectedFunc() && Settings.Mode == "Client")
+            if (Client.connected && Settings.Mode == "Client")
             {
                 return "Connected";
             }
@@ -129,21 +130,25 @@ namespace Caps_Sync
         private void modeSetup()
         {
             toolStripCapsStatus.Text = KeyText();
-            toolStripModeStatus.Text = ServerMode;
-            IPAddress.Text = (Settings.IP + ":" + Settings.Port);
+            toolStripModeStatus.Text = Settings.Mode;
+
+            if (Server.Setup)
+            {
+                Server.RemoveServer();
+            }
+            if (Client.clientInitialized)
+            {
+                Client.RemoveClient();
+            }
             switch (Settings.Mode)
             {
                 case "Server":
-                    if (!Server.Setup)
-                    {
-                        Server.SetupServer();
-                    }
+                    IPAddress.Text = (Server.ServerString);
+                    Server.SetupServer();
                     break;
                 case "Client":
-                    if (!Client.clientInitialized)
-                    {
-                        Client.ConnectToServer();
-                    }
+                    IPAddress.Text = (Client.ServerString);
+                    Client.ConnectToServer();
                     break;
             }
         }
@@ -237,9 +242,9 @@ namespace Caps_Sync
 
         private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            consoleForm.Visible = true;
-            consoleForm.Opacity = 100;
-            consoleForm.ShowInTaskbar = true;
+            MainWindow.consoleForm.Visible = true;
+            MainWindow.consoleForm.Opacity = 100;
+            MainWindow.consoleForm.ShowInTaskbar = true;
         }
     }
 }

@@ -9,19 +9,21 @@ namespace Caps_Sync
     class Client
     {
 
-        public static bool connected
-        {
-            get
+        public static bool connected = false;
+
+        private static void Reconnect(bool reconnecting = true) {
+
+            if (connected)
             {
-                return _clientSocket.Connected;
+                _clientSocket.Shutdown(SocketShutdown.Both);
+            }
+            _clientSocket.Close();
+            clientInitialized = false;
+            if (reconnecting && Settings.Mode == "Client")
+            {
+                ConnectToServer();
             }
         }
-
-        public static bool connectedFunc()
-        {
-            return connected;
-        }
-
 
         public static bool clientInitialized = false;
 
@@ -39,9 +41,21 @@ namespace Caps_Sync
 
         public static void ConnectToServer()
         {
-            Logging.Write(String.Format("Connecting to {0}", ServerString), 3);
+            if (!clientInitialized)
+            {
+                _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            }
+
+            Logging.Write(String.Format("Connecting to {0}.", ServerString), 3);
             _clientSocket.BeginConnect(Settings.IP, Settings.Port, new AsyncCallback(ConnectCallback), _clientSocket);
             clientInitialized = true;
+        }
+
+        public static void RemoveClient()
+        {
+            Logging.Write("The client is going down - NOW!", 3);
+            Reconnect(false);
+            Logging.Write("The Client functions have been disabled!", 3);
         }
 
         private static void ConnectCallback(IAsyncResult ar)
@@ -50,25 +64,42 @@ namespace Caps_Sync
             {
                 _clientSocket.EndConnect(ar);
             }
+            catch(ArgumentException)
+            {
+                Logging.Write("The server has unexpectedly disconnected and the resulting Async Callback has been cancelled.", 2);
+                return;
+            }
+            catch(ObjectDisposedException)
+            {
+                Logging.Write("Current Async connection started from BeginConnect has been terminated. This is most likely caused by changing the program into Server mode (ignorable in this case).", 3);
+                return;
+            }
             catch(SocketException)
             {
-                
-                Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
-                while (!_clientSocket.Connected)
-                {
-                    Thread.Sleep(500);
-                    try
-                    {
-                        _clientSocket.Connect(Settings.IP, Settings.Port);
-                    }
-                    catch(SocketException)
-                    {
-                        Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
-                        continue;
-                    }
-                }
+                Logging.Write("Connection failed.", 3);
+                Reconnect();
+                return;
+                //while (!connected && clientInitialized)
+                //{
+                //    try
+                //    {
+                //        _clientSocket.Connect(Settings.IP, Settings.Port);
+                //    }
+                //    catch(SocketException)
+                //    {
+                //        Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
+                //    }
+                //    catch(InvalidOperationException)
+                //    {
+                //        Logging.Write("Socket disconnected, resetting", 2);
+                //        Reconnect();
+                //        return;
+                //    }
+                //    Logging.Write(String.Format("Is Client initialized? {0}", clientInitialized), 4);
+                //}
             }
-            while (_clientSocket.Connected)
+            connected = true;
+            while (connected)
             {
                 OnReceive();
             }
@@ -85,6 +116,9 @@ namespace Caps_Sync
                 if (totalread <= 0)
                 {
                     Logging.Write("Server no longer responding: Disconnected.", 3);
+                    connected = false;
+                    Reconnect();
+                    return;
                 }
                 else
                 {
@@ -113,13 +147,11 @@ namespace Caps_Sync
                     ClientHandleNetworkData.HandleNetworkInformation(data);
                 }
             }
-            catch(Exception e) {
-                Logging.ExceptionWrite(e);
-                Logging.Write("Exception has been thrown in the server Socket. Closing the socket and retrying the connection.", 1);
-                _clientSocket.Close();
-                _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                Thread.Sleep(500);
-                ConnectToServer();
+            catch(SocketException) {
+                Logging.Write("Server socket has unexpectedly closed. Retrying the connection.", 1);
+                connected = false;
+                Reconnect();
+                return;
             }
 
         }

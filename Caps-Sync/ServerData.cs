@@ -40,7 +40,7 @@ namespace Caps_Sync
             string msg = buffer.ReadtoString();
             buffer.Dispose();
             //Add code to be executed here.
-            Logging.Write(msg, 1);
+            Logging.Write(msg, 3);
         }
 
         private static void CapsReceive(int index, byte[] data)

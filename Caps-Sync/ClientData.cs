@@ -40,7 +40,7 @@ namespace Caps_Sync
             string msg = buffer.ReadtoString();
             buffer.Dispose();
             //Add code to be executed here.
-            Logging.Write(msg, 4);
+            Logging.Write(msg, 3);
             Client.ServerACK();
         }
 

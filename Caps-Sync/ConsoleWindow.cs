@@ -20,7 +20,7 @@ namespace Caps_Sync
 
         protected override void OnLoad(EventArgs e)
         {
-            Console.SetOut(new ControlWriter(consoleOutput));
+            //Console.SetOut(new ControlWriter(consoleOutput));
             Visible = false; // Hide form window.
             ShowInTaskbar = false; // Remove from taskbar.
             Opacity = 0;
@@ -38,27 +38,28 @@ namespace Caps_Sync
             }
         }
 
-        public void AppendTextBox(string value)
+        public void WriteLog(string value)
         {
             if (InvokeRequired)
             {
-                this.Invoke(new Action<String>(AppendTextBox), new object[] { value });
+                this.Invoke(new Action<String>(WriteLog), new object[] { value });
                 return;
             }
             consoleOutput.AppendText(value);
-            for (int x = 0; consoleOutput.Text.Length >= 25000; x++)
+            for (int x = consoleOutput.Text.Length; x >= 25000;)
             {
                 consoleOutput.Text = StringExtensions.RemoveFirstLines(consoleOutput.Text, 1);
+                x = consoleOutput.Text.Length;
             }
         }
 
-        public void AppendTextBox(char value)
+        public void WriteLog(char value)
         {
             if (InvokeRequired)
             {
                 try
                 {
-                    this.Invoke(new Action<char>(AppendTextBox), new object[] { value });
+                    this.Invoke(new Action<char>(WriteLog), new object[] { value });
                 }
                 catch (ObjectDisposedException)
                 {
@@ -67,9 +68,10 @@ namespace Caps_Sync
                 return;
             }
             consoleOutput.AppendText(value.ToString());
-            for(int x = 0; consoleOutput.Text.Length >= 25000; x++)
+            for (int x = consoleOutput.Text.Length; x >= 25000;)
             {
                 consoleOutput.Text = StringExtensions.RemoveFirstLines(consoleOutput.Text, 1);
+                x = consoleOutput.Text.Length;
             }
         }
     }

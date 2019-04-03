@@ -22,27 +22,32 @@ namespace Caps_Sync
         {
             if (Settings.LogLevel >= level)
             {
+                Console.Out.Flush();
                 switch (level) {
                     case 1:
-                        Console.WriteLine(String.Format("Critical: {0} ", text));
+                        MainWindow.consoleForm.WriteLog(WriteLine(String.Format("Critical: {0} ", text)));
                         break;
                     case 2:
-                        Console.WriteLine(String.Format("Warning: {0} ", text));
+                        MainWindow.consoleForm.WriteLog(WriteLine(String.Format("Warning: {0} ", text)));
                         break;
                     case 3:
-                        Console.WriteLine(String.Format("Information: {0} ", text));
+                        MainWindow.consoleForm.WriteLog(WriteLine(String.Format("Information: {0} ", text)));
                         break;
                     case 4:
-                        Console.WriteLine(String.Format("Verbose: {0} ", text));
+                        MainWindow.consoleForm.WriteLog(WriteLine(String.Format("Verbose: {0} ", text)));
                         break;
                 }
             }
         }
 
+        private static string WriteLine(string text)
+        {
+            return text + Environment.NewLine;
+        }
         public static void ExceptionWrite(Exception e) //We will not perform a check on this because we always want exceptions to be written to the console.
         {
-            Console.WriteLine("The Following Error occured: \n{0}", e);
+            MainWindow.consoleForm.WriteLog(WriteLine("Critical: The Following unhandled exception occured: "));
+            MainWindow.consoleForm.WriteLog(WriteLine(e.ToString()));
         }
-
     }
 }

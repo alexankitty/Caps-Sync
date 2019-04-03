@@ -18,19 +18,16 @@ namespace Caps_Sync
         [HandleProcessCorruptedStateExceptions]
         static void Main()
         {
-            Settings.InitializeVars();
-            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-
             if (!AppDomain.CurrentDomain.FriendlyName.EndsWith("vshost.exe"))
             {
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             }
+            Settings.InitializeVars();
+            Application.EnableVisualStyles();
             Application.Run(new HiddenContext());
-
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

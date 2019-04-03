@@ -111,7 +111,6 @@ namespace Caps_Sync
             }
             else
             {
-                Logging.Write(saving.ToString(), 1);
                 switch (Settings.LogLevel)
                 {
                     case 1:

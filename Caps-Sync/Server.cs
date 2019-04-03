@@ -14,19 +14,11 @@ namespace Caps_Sync
         private static byte[] _buffer = new byte[1024]; // Creates a buffer.
         public static ServeClient[] _clients = new ServeClient[Constants.MAX_Clients]; //Creates the client with the maximum number specified.
 
-        public static string ServerIP
-        {
-            get
-            {
-                return Network.localIP;
-            }
-
-        }
         public static string ServerString
         {
             get
             {
-                return ServerIP + ":" + Settings.Port;
+                return Network.localIP + ":" + Settings.Port;
             }
         }
 
@@ -63,7 +55,7 @@ namespace Caps_Sync
 
         public static void SetupServer() // this will set up the actual server
         {
-        Logging.Write("Setting up server.", 3);
+            Logging.Write("Setting up the server.", 3);
             for(int i = 0; i < Constants.MAX_Clients; i++)
             {
                 _clients[i] = new ServeClient();
@@ -71,7 +63,8 @@ namespace Caps_Sync
             try
             {
                 if (!Setup)
-                {
+                { 
+                    _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     _serverSocket.Bind(new IPEndPoint(IPAddress.Any, Settings.Port)); //binds to a socket and port
                     _serverSocket.Listen(10); //sets the max amount of clients it will listen for - when the server runs in client mode, this should only accept 1.
                     _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null); //Begins the accept process followed by a callback
@@ -81,10 +74,28 @@ namespace Caps_Sync
             catch(SocketException e)
             {
                 Logging.ExceptionWrite(e);
-                Logging.Write("Server setup has failed, sleeping then trying again.", 2);
-                //Thread.Sleep(100);
-                //reinitializeServer();
+                Logging.Write("Server setup has failed.", 2);
             }
+        }
+
+        public static void RemoveServer()
+        {
+            Logging.Write("Bringing the server down - NOW!", 3);
+            _serverSocket.Close();
+            for (int i = 0; i < _clients.Length; i++)
+            {
+                if (_clients[i].socket != null)
+                {
+                    _clients[i].closing = true;
+                    Logging.Write(String.Format("Connection from {0} has been terminated.", _clients[i].IPAddress), 3); //This will close the connection and write the connection closing to the console.                                                                //Client Left
+                    _clients[i].socket.Shutdown(SocketShutdown.Both);
+                    _clients[i].socket.Close(); //This will free up the socket
+                }
+            }
+            _serverSocket.Dispose();
+            Setup = false;
+            
+            Logging.Write("Server functions have been disabled!", 3);
         }
 
         private static void AcceptCallback(IAsyncResult ar)
@@ -94,9 +105,9 @@ namespace Caps_Sync
             {
                 socket = _serverSocket.EndAccept(ar);/* this terminates the accept connection and then opens it up again for another to connect in. This helps facilitate multiple connections*/
             }
-            catch(ArgumentException)
+            catch(ObjectDisposedException)
             {
-                Logging.Write("Current Async connection started from BeginAccept has been terminated.", 1);
+                Logging.Write("Current Async connection started from BeginAccept has been terminated. This is most likely caused by changing the program into Client mode (ignorable in this case).", 2);
                 return;
             }
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
@@ -141,7 +152,7 @@ namespace Caps_Sync
                 int received = socket.EndReceive(ar); /* this gets the byte length of received data, if no data is received we close the client.*/
                 if (received <= 0)
                 {
-                    CloseClient(index); /*this closes the client of number x*/
+                    CloseClient(); /*this closes the client of number x*/
 
                 }
                 else
@@ -156,11 +167,11 @@ namespace Caps_Sync
             }
             catch
             {
-                CloseClient(index); //This will catch the error and close that connection.
+                CloseClient(); //This will catch the error and close that connection.
             }
         }
 
-        private void CloseClient(int index)
+        private void CloseClient()
         {
             closing = true;
             Logging.Write(String.Format("Connection from {0} has been terminated.", IPAddress), 3); //This will close the connection and write the connection closing to the console.                                                                //Client Left

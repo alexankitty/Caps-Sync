@@ -58,6 +58,7 @@
             // 
             // ModeBox
             // 
+            this.ModeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ModeBox.FormattingEnabled = true;
             this.ModeBox.Items.AddRange(new object[] {
             "Client",
@@ -206,6 +207,7 @@
             // 
             // LoggingBox
             // 
+            this.LoggingBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LoggingBox.FormattingEnabled = true;
             this.LoggingBox.Items.AddRange(new object[] {
             "Critical",
