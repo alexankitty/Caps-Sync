@@ -23,7 +23,7 @@ namespace Caps_Sync
 
         private void SetTimer() //Function for creating the timer
         {
-            capCheckTimer = new System.Timers.Timer(Convert.ToInt32(Settings.PollInterval.GetValue())); //grabs the poll intervel from the registry and sets to that.
+            capCheckTimer = new System.Timers.Timer(Settings.PollInterval); //grabs the poll intervel from the registry and sets to that.
             capCheckTimer.Elapsed += OnTimedEvent;
             capCheckTimer.AutoReset = true;
             capCheckTimer.Enabled = true;
@@ -46,7 +46,7 @@ namespace Caps_Sync
         {
             get
             {
-                return Settings.Mode.GetValue();
+                return Settings.Mode;
             }
         }
 
@@ -87,11 +87,11 @@ namespace Caps_Sync
 
         public static string StatusText()
         {
-            if (Client.connectedFunc() && Settings.Mode.GetValue() == "Client")
+            if (Client.connectedFunc() && Settings.Mode == "Client")
             {
                 return "Connected";
             }
-            else if(Settings.Mode.GetValue() == "Server")
+            else if(Settings.Mode == "Server")
             {
                 return "Client List";
             }
@@ -114,7 +114,7 @@ namespace Caps_Sync
 
         public static string ServerIPText()
         {
-            switch (Settings.Mode.GetValue())
+            switch (Settings.Mode)
             {
                 case "Server":
                     return Server.ServerString;
@@ -130,8 +130,8 @@ namespace Caps_Sync
         {
             toolStripCapsStatus.Text = KeyText();
             toolStripModeStatus.Text = ServerMode;
-            IPAddress.Text = (Settings.IP.GetValue() + ":" + Settings.Port.GetValue());
-            switch (Settings.Mode.GetValue())
+            IPAddress.Text = (Settings.IP + ":" + Settings.Port);
+            switch (Settings.Mode)
             {
                 case "Server":
                     if (!Server.Setup)
@@ -154,7 +154,7 @@ namespace Caps_Sync
             ClientHandleNetworkData.InitializeNetworkPackages();
             toolStripCapsStatus.Text = KeyText();
             toolStripModeStatus.Text = ServerMode;
-            switch (Settings.Mode.GetValue())
+            switch (Settings.Mode)
             {
                 case "Server":
                     Server.SetupServer();

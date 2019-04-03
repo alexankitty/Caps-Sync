@@ -40,7 +40,7 @@ namespace Caps_Sync
             string msg = buffer.ReadtoString();
             buffer.Dispose();
             //Add code to be executed here.
-            Console.WriteLine(msg);
+            Logging.Write(msg, 4);
             Client.ServerACK();
         }
 
@@ -51,7 +51,7 @@ namespace Caps_Sync
             buffer.ReadtoInteger();
             string msg = buffer.ReadtoString();
             buffer.Dispose();
-            Console.WriteLine(msg);
+            Logging.Write(msg, 4);
         }
     }
 }

@@ -20,54 +20,22 @@ namespace Caps_Sync
 
         private void SettingSave()
         {
-            switch (StartCheck.Checked)
-            {
-                case true:
-                    Settings.StartWithWindows.Save(RegHandler.SystemDiag.ProcessPath);
-                    break;
-                case false:
-                    if(Settings.StartWithWindows.GetValue() != RegHandler.SystemDiag.ProcessPath)
-                    {
-                    break;
-                    }
-                    Settings.StartWithWindows.Delete();
-                    break;
-            }
-            switch (MinimizedBox.Checked)
-            {
-                case true:
-                    Settings.StartMinimized.Save("true");
-                    break;
-                case false:
-                    Settings.StartMinimized.Save("false");
-                    break;
-            }
-            Settings.Mode.Save(ModeBox.SelectedItem.ToString());
-            Settings.Port.Save(PortTextBox.Text);
-            Settings.IP.Save(IPTextBox.Text);
-            Settings.PollInterval.Save(PollIntervalBox.Value.ToString());
-            ModeSelected(Settings.Mode.GetValue());
+            Settings.Mode = ModeBox.SelectedItem.ToString();
+            Settings.Port = Convert.ToInt32(PortTextBox.Text);
+            Settings.IP = IPTextBox.Text;
+            Settings.PollInterval = (int)PollIntervalBox.Value;
             MainWindow.SettingsChanged = true;
+            SettingProg(true);
         }
 
         private void SettingRead()
         {
-            if (Settings.StartWithWindows.GetValue() == RegHandler.SystemDiag.ProcessPath)
-            {
-                StartCheck.Checked = true;
-            }
-            if (Settings.Mode.GetValue() == "")
-            {
-                ModeSelected("Server");
-                return;
-            }
-            if(Settings.StartMinimized.GetValue() == "true")
-            {
-                MinimizedBox.Checked = true;
-            }
-            ModeBox.SelectedItem = Settings.Mode.GetValue();
-            ModeSelected(Settings.Mode.GetValue());
-            PollIntervalBox.Value = Convert.ToInt32(Settings.PollInterval.GetValue());
+            ModeBox.SelectedItem = Settings.Mode;
+            ModeSelected(Settings.Mode);
+            IPTextBox.Text = Settings.IP;
+            PortTextBox.Text = Settings.Port.ToString();
+            PollIntervalBox.Value = Settings.PollInterval;
+            SettingProg();
         } 
 
         private void OKbutton_Click(object sender, EventArgs e)
@@ -81,41 +49,94 @@ namespace Caps_Sync
             Close();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ModeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (ModeBox.SelectedItem.ToString()) {
-                case "Server":
-                    ModeSelected(ModeBox.SelectedItem.ToString());
-                    break;
-                case "Client":
-                    ModeSelected(ModeBox.SelectedItem.ToString());
-                    break;
-            }
+            ModeSelected(ModeBox.SelectedItem.ToString());
         }
 
         private void ModeSelected(string mode)
         {
-           Settings.Mode.Save(ModeBox.Text);
-            if (Settings.Port.GetValue() == "")
-            {
-                Settings.Port.Save("18873");
-            }
-            PortTextBox.Text = Settings.Port.GetValue();
-            if (Settings.IP.GetValue() == "")
-            {
-                Settings.IP.Save(Network.localIP);
-            }
             switch (mode)
             {
                 case "Server":
-                IPTextBox.Enabled = false;
+                    IPTextBox.Enabled = false;
                     break;
                 case "Client":
-                IPTextBox.Enabled = true;
+                    IPTextBox.Enabled = true;
                     break;
             }
-            IPTextBox.Text = Settings.IP.GetValue();
-            ModeBox.Text = Settings.Mode.GetValue();
+        }
+
+        private void SettingProg(bool saving = false)
+        {
+            if (saving)
+            {
+                switch (LoggingBox.SelectedItem.ToString())
+                {
+                    case "Critical":
+                        Settings.LogLevel = 1;
+                        break;
+                    case "Warning":
+                        Settings.LogLevel = 2;
+                        break;
+                    case "Informational":
+                        Settings.LogLevel = 3;
+                        break;
+                    case "Verbose":
+                        Settings.LogLevel = 4;
+                        break;
+                }
+                switch (StartCheck.Checked)
+                {
+                    case true:
+                        Settings.StartWithWindows = RegHandler.SystemDiag.ProcessPath;
+                        break;
+                    case false:
+                        if (Settings.StartWithWindows != RegHandler.SystemDiag.ProcessPath)
+                        {
+                            break;
+                        }
+                        Settings.StartWithWindows = "";
+                        break;
+                }
+                switch (MinimizedBox.Checked)
+                {
+                    case true:
+                        Settings.StartMinimized = "true";
+                        break;
+                    case false:
+                        Settings.StartMinimized = "false";
+                        break;
+                }
+            }
+            else
+            {
+                Logging.Write(saving.ToString(), 1);
+                switch (Settings.LogLevel)
+                {
+                    case 1:
+                        LoggingBox.SelectedItem = "Critical";
+                        break;
+                    case 2:
+                        LoggingBox.SelectedItem = "Warning";
+                        break;
+                    case 3:
+                        LoggingBox.SelectedItem = "Informational";
+                        break;
+                    case 4:
+                        LoggingBox.SelectedItem = "Verbose";
+                        break;
+                }
+
+                if (Settings.StartWithWindows == RegHandler.SystemDiag.ProcessPath)
+                {
+                    StartCheck.Checked = true;
+                }
+                if (Settings.StartMinimized == "true")
+                {
+                    MinimizedBox.Checked = true;
+                }
+            }
         }
     }
 }

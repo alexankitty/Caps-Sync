@@ -27,34 +27,20 @@ namespace Caps_Sync
 
         private static Socket _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private byte[] _asyncbuffer = new byte[1024]; //Creates a new asynchronous buffer of 1kb
-        public static string ServerIP
-        {
-            get
-            {
-                return Settings.IP.GetValue();
-            }
 
-        }
-        public static int PortInt
-        {
-            get
-            {
-                return Convert.ToInt32(Settings.Port.GetValue());
-            }
-        }
         public static string ServerString
         {
             get
             {
-                return ServerIP + ":" + PortInt;
+                return Settings.IP + ":" + Settings.Port;
             }
         }
 
 
         public static void ConnectToServer()
         {
-            Console.WriteLine("Connecting to {0}", ServerString);
-            _clientSocket.BeginConnect(ServerIP, Settings.PortInt, new AsyncCallback(ConnectCallback), _clientSocket);
+            Logging.Write(String.Format("Connecting to {0}", ServerString), 3);
+            _clientSocket.BeginConnect(Settings.IP, Settings.Port, new AsyncCallback(ConnectCallback), _clientSocket);
             clientInitialized = true;
         }
 
@@ -67,17 +53,17 @@ namespace Caps_Sync
             catch(SocketException)
             {
                 
-                Console.WriteLine("Connection to {0} failed.", ServerString);
+                Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
                 while (!_clientSocket.Connected)
                 {
                     Thread.Sleep(500);
                     try
                     {
-                        _clientSocket.Connect(ServerIP, Settings.PortInt);
+                        _clientSocket.Connect(Settings.IP, Settings.Port);
                     }
                     catch(SocketException)
                     {
-                        Console.WriteLine("Connection to {0} failed.", ServerString);
+                        Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
                         continue;
                     }
                 }
@@ -98,7 +84,7 @@ namespace Caps_Sync
                 currentread = totalread = _clientSocket.Receive(_sizeinfo);
                 if (totalread <= 0)
                 {
-                    Console.WriteLine("Server no longer responding: Disconnected.");
+                    Logging.Write("Server no longer responding: Disconnected.", 3);
                 }
                 else
                 {
@@ -128,8 +114,8 @@ namespace Caps_Sync
                 }
             }
             catch(Exception e) {
-                Program.exceptionWrite(e);
-                Console.WriteLine("Disconnected.");
+                Logging.ExceptionWrite(e);
+                Logging.Write("Exception has been thrown in the server Socket. Closing the socket and retrying the connection.", 1);
                 _clientSocket.Close();
                 _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 Thread.Sleep(500);

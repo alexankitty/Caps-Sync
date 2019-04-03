@@ -40,7 +40,7 @@ namespace Caps_Sync
             string msg = buffer.ReadtoString();
             buffer.Dispose();
             //Add code to be executed here.
-            Console.WriteLine(msg);
+            Logging.Write(msg, 1);
         }
 
         private static void CapsReceive(int index, byte[] data)
@@ -50,8 +50,8 @@ namespace Caps_Sync
             buffer.ReadtoInteger();
             string state = buffer.ReadtoString();
             buffer.Dispose();
-            Console.WriteLine("Received Caps state: {0}", state);
-            switch(state)
+            Logging.Write(String.Format("Received Caps state: {0} ", state), 4);
+            switch (state)
             {
                 case "ON":
                     KeyHandler.SynchronizeCapsState(true);
@@ -62,7 +62,7 @@ namespace Caps_Sync
                     Server.SendCapsChanged(index, state);
                     break;
                 default:
-                    Console.WriteLine("Bad data received: {0}", state);
+                    Logging.Write(String.Format("Received Caps state: {0} ", state), 2);
                     break;
             }
 
