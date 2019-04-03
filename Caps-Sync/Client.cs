@@ -79,24 +79,6 @@ namespace Caps_Sync
                 Logging.Write("Connection failed.", 3);
                 Reconnect();
                 return;
-                //while (!connected && clientInitialized)
-                //{
-                //    try
-                //    {
-                //        _clientSocket.Connect(Settings.IP, Settings.Port);
-                //    }
-                //    catch(SocketException)
-                //    {
-                //        Logging.Write(String.Format("Connection to {0} failed.", ServerString), 3);
-                //    }
-                //    catch(InvalidOperationException)
-                //    {
-                //        Logging.Write("Socket disconnected, resetting", 2);
-                //        Reconnect();
-                //        return;
-                //    }
-                //    Logging.Write(String.Format("Is Client initialized? {0}", clientInitialized), 4);
-                //}
             }
             connected = true;
             while (connected)

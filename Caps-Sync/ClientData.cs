@@ -42,7 +42,8 @@ namespace Caps_Sync
             //Add code to be executed here.
             Logging.Write(msg, 3);
             Client.ServerACK();
-        }
+            KeyHandler.SynchronizeCapsState(KeyHandler.CapsStatus());
+            }
 
         private static void ReceiveCaps(byte[] data)
         {
