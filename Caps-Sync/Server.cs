@@ -110,6 +110,11 @@ namespace Caps_Sync
                 Logging.Write("Current Async connection started from BeginAccept has been terminated. This is most likely caused by changing the program into Client mode (ignorable in this case).", 2);
                 return;
             }
+            catch(ArgumentException)
+            {
+                Logging.Write("Current Async connection started from BeginAccept has been terminated. This is most likely caused by changing the program into Client mode (ignorable in this case).", 2);
+                return;
+            }
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
 
             for (int i = 0; i < Constants.MAX_Clients; i++)

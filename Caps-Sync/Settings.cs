@@ -30,6 +30,9 @@ namespace Caps_Sync
                 case "LogLevel":
                     LogLevel = 3;
                     break;
+                    case "SyncOnPoll":
+                    SyncOnPoll = "False";
+                    break;
             }
         }
         private static readonly string SettingPath = @"Software\Alexandra Stone Software\Caps Sync"; //The registry path for storing settings at
@@ -40,6 +43,7 @@ namespace Caps_Sync
         private static RegObject PollIntervalReg = new RegObject("HKCU", SettingPath, "PollInterval");
         private static RegObject StartMinimizedReg = new RegObject("HKCU", SettingPath, "StartMinimized");
         private static RegObject LogLevelReg = new RegObject("HKCU", SettingPath, "LogLevel");
+        private static RegObject SyncOnPollReg = new RegObject("HKCU", SettingPath, "SyncOnPoll");
 
         private static string _StartWithWindows;
         private static string _Mode;
@@ -48,6 +52,7 @@ namespace Caps_Sync
         private static string _PollInterval;
         private static string _StartMinimized;
         private static string _LogLevel;
+        private static string _SyncOnPoll;
 
         public static void InitializeVars()
         {
@@ -58,6 +63,7 @@ namespace Caps_Sync
             _PollInterval = PollIntervalReg.GetValue();
             _StartMinimized = StartMinimizedReg.GetValue();
             _LogLevel = LogLevelReg.GetValue();
+            _SyncOnPoll = SyncOnPollReg.GetValue();
         }
 
         public static string StartWithWindows
@@ -155,6 +161,19 @@ namespace Caps_Sync
                 string valueString = value.ToString();
                 LogLevelReg.Save(valueString);
                 _LogLevel = valueString;
+            }
+        }
+
+        public static string SyncOnPoll
+        {
+            get
+            {
+                return _SyncOnPoll;
+            }
+            set
+            {
+               SyncOnPollReg.Save(value);
+                _SyncOnPoll = value;
             }
         }
     }

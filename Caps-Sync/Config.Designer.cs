@@ -43,6 +43,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.LoggingBox = new System.Windows.Forms.ComboBox();
             this.MinimizedBox = new System.Windows.Forms.CheckBox();
+            this.SyncOnPollCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PollIntervalBox)).BeginInit();
             this.SuspendLayout();
@@ -91,7 +92,7 @@
             // StartCheck
             // 
             this.StartCheck.AutoSize = true;
-            this.StartCheck.Location = new System.Drawing.Point(12, 161);
+            this.StartCheck.Location = new System.Drawing.Point(12, 147);
             this.StartCheck.Name = "StartCheck";
             this.StartCheck.Size = new System.Drawing.Size(120, 17);
             this.StartCheck.TabIndex = 2;
@@ -102,7 +103,7 @@
             // 
             this.Cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Cancelbutton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancelbutton.Location = new System.Drawing.Point(93, 229);
+            this.Cancelbutton.Location = new System.Drawing.Point(93, 220);
             this.Cancelbutton.Name = "Cancelbutton";
             this.Cancelbutton.Size = new System.Drawing.Size(75, 23);
             this.Cancelbutton.TabIndex = 4;
@@ -113,7 +114,7 @@
             // OKbutton
             // 
             this.OKbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.OKbutton.Location = new System.Drawing.Point(12, 229);
+            this.OKbutton.Location = new System.Drawing.Point(12, 220);
             this.OKbutton.Name = "OKbutton";
             this.OKbutton.Size = new System.Drawing.Size(75, 23);
             this.OKbutton.TabIndex = 5;
@@ -222,12 +223,22 @@
             // MinimizedBox
             // 
             this.MinimizedBox.AutoSize = true;
-            this.MinimizedBox.Location = new System.Drawing.Point(12, 185);
+            this.MinimizedBox.Location = new System.Drawing.Point(12, 171);
             this.MinimizedBox.Name = "MinimizedBox";
             this.MinimizedBox.Size = new System.Drawing.Size(97, 17);
             this.MinimizedBox.TabIndex = 3;
             this.MinimizedBox.Text = "Start Minimized";
             this.MinimizedBox.UseVisualStyleBackColor = true;
+            // 
+            // SyncOnPollCheckBox
+            // 
+            this.SyncOnPollCheckBox.AutoSize = true;
+            this.SyncOnPollCheckBox.Location = new System.Drawing.Point(12, 195);
+            this.SyncOnPollCheckBox.Name = "SyncOnPollCheckBox";
+            this.SyncOnPollCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.SyncOnPollCheckBox.TabIndex = 7;
+            this.SyncOnPollCheckBox.Text = "Sync On Poll Interval";
+            this.SyncOnPollCheckBox.UseVisualStyleBackColor = true;
             // 
             // Config
             // 
@@ -237,7 +248,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.Cancelbutton;
-            this.ClientSize = new System.Drawing.Size(198, 264);
+            this.ClientSize = new System.Drawing.Size(194, 255);
+            this.Controls.Add(this.SyncOnPollCheckBox);
             this.Controls.Add(this.MinimizedBox);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ModeBox);
@@ -276,5 +288,6 @@
         private System.Windows.Forms.CheckBox MinimizedBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox LoggingBox;
+        private System.Windows.Forms.CheckBox SyncOnPollCheckBox;
     }
 }

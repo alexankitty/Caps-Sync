@@ -108,6 +108,15 @@ namespace Caps_Sync
                         Settings.StartMinimized = "false";
                         break;
                 }
+                switch (SyncOnPollCheckBox.Checked)
+                {
+                    case true:
+                        Settings.SyncOnPoll = "true";
+                        break;
+                    case false:
+                        Settings.SyncOnPoll = "false";
+                        break;
+                }
             }
             else
             {
@@ -134,6 +143,10 @@ namespace Caps_Sync
                 if (Settings.StartMinimized == "true")
                 {
                     MinimizedBox.Checked = true;
+                }
+                if(Settings.SyncOnPoll == "true")
+                {
+                    SyncOnPollCheckBox.Checked = true;
                 }
             }
         }

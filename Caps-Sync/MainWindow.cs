@@ -33,13 +33,17 @@ namespace Caps_Sync
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            if (!(isCapsLocked == KeyHandler.CapsStatus()))
+            if (isCapsLocked != KeyHandler.CapsStatus() && Settings.Mode == "Client")
             {
                 isCapsLocked = KeyHandler.CapsStatus();
                 KeyHandler.SynchronizeCapsState(isCapsLocked);
-                toolStripCapsStatus.Text = KeyText();
+            }
+            if(Settings.SyncOnPoll == "true" && Settings.Mode == "Client")
+            {
+                KeyHandler.SynchronizeCapsState(KeyHandler.CapsStatus());
             }
             SetText(AdditionalText(), StatusText(), ServerIPText());
+            toolStripCapsStatus.Text = KeyText();
         }
 
         private static string ServerMode
@@ -54,7 +58,7 @@ namespace Caps_Sync
 
         public MainWindow()
         {
-            
+            isCapsLocked = KeyHandler.CapsStatus();
             SetTimer();
             InitializeComponent();
             consoleForm.Show();
