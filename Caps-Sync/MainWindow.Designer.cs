@@ -263,7 +263,7 @@
             // 
             this.VersionNumber.Name = "VersionNumber";
             this.VersionNumber.Size = new System.Drawing.Size(31, 17);
-            this.VersionNumber.Text = "1.0.1";
+            this.VersionNumber.Text = "1.0.2";
             // 
             // MainWindow
             // 
