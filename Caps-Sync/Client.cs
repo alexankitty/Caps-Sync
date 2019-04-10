@@ -140,7 +140,15 @@ namespace Caps_Sync
 
         public static void SendData(byte[] data)
         {
-            _clientSocket.Send(data);
+            try
+            {
+                _clientSocket.Send(data);
+            }
+            catch
+            {
+                Logging.Write("Server disconnected during attempt to send data, exiting.", 2);
+                return;
+            }
         }
 
         public static void ServerACK()

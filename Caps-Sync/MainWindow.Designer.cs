@@ -52,6 +52,8 @@
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VersionLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.VersionNumber = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -64,10 +66,12 @@
             this.toolStripStatusLabel1,
             this.toolStripCapsStatus,
             this.toolStripStatusLabel3,
-            this.toolStripModeStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 118);
+            this.toolStripModeStatus,
+            this.VersionLabel,
+            this.VersionNumber});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 120);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(240, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(271, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -103,7 +107,7 @@
             this.consoleToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(240, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(271, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -249,11 +253,23 @@
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // VersionLabel
+            // 
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(48, 17);
+            this.VersionLabel.Text = "Version:";
+            // 
+            // VersionNumber
+            // 
+            this.VersionNumber.Name = "VersionNumber";
+            this.VersionNumber.Size = new System.Drawing.Size(31, 17);
+            this.VersionNumber.Text = "1.0.1";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(240, 140);
+            this.ClientSize = new System.Drawing.Size(271, 142);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -300,6 +316,8 @@
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem consoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel VersionLabel;
+        private System.Windows.Forms.ToolStripStatusLabel VersionNumber;
     }
 }
 

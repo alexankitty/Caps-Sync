@@ -76,27 +76,28 @@ namespace Caps_Sync
         //Read Data
         public int ReadtoInteger(bool peek = true)
         {
-             if (_bufferlist.Count > _readpos)
-             {
-                    if (_bufferupdate)
-                    {
-                        _readbuffer = _bufferlist.ToArray();
-                        _bufferupdate = false;
-                    }
-
-                    int value = BitConverter.ToInt32(_readbuffer, _readpos);
-
-                    if (peek & _bufferlist.Count > _readpos)
-                    {
-                        _readpos += 4;
-                    }
-
-                    return value;
-             }
-                else
+            if (_bufferlist.Count > _readpos)
+            {
+                if (_bufferupdate)
                 {
-                    throw new Exception("Buffer Exceeded.");
+                    _readbuffer = _bufferlist.ToArray();
+                    _bufferupdate = false;
                 }
+
+                int value = 0;
+
+                if (peek & _bufferlist.Count > _readpos)
+                {
+                    value = BitConverter.ToInt32(_readbuffer, _readpos);
+                    _readpos += 4;
+                }
+
+                return value;
+            }
+            else
+            {
+                throw new Exception("Buffer Exceeded.");
+            }
         }
 
 

@@ -88,7 +88,6 @@ namespace Caps_Sync
                 {
                     _clients[i].closing = true;
                     Logging.Write(String.Format("Connection from {0} has been terminated.", _clients[i].IPAddress), 3); //This will close the connection and write the connection closing to the console.                                                                //Client Left
-                    _clients[i].socket.Shutdown(SocketShutdown.Both);
                     _clients[i].socket.Close(); //This will free up the socket
                 }
             }
@@ -143,7 +142,16 @@ namespace Caps_Sync
 
         public void startClient()
         {
-            socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+            try
+            {
+                socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+            }
+            catch
+            {
+                CloseClient();
+                Logging.Write(String.Format("Connection from {0} terminated unexpectedly.", IPAddress), 2);
+                return;
+            }
             closing = false;
         }
 
