@@ -69,9 +69,9 @@
             this.toolStripModeStatus,
             this.VersionLabel,
             this.VersionNumber});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 120);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 135);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(271, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(244, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -107,7 +107,7 @@
             this.consoleToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(271, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(244, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -152,7 +152,7 @@
             // 
             this.IPAddress.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.IPAddress.AutoSize = true;
-            this.IPAddress.Location = new System.Drawing.Point(66, 5);
+            this.IPAddress.Location = new System.Drawing.Point(68, 5);
             this.IPAddress.Name = "IPAddress";
             this.IPAddress.Size = new System.Drawing.Size(40, 13);
             this.IPAddress.TabIndex = 1;
@@ -162,7 +162,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 5);
+            this.label1.Location = new System.Drawing.Point(4, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 0;
@@ -184,14 +184,14 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(215, 72);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(219, 72);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // ServerStatus
             // 
             this.ServerStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ServerStatus.AutoSize = true;
-            this.ServerStatus.Location = new System.Drawing.Point(66, 29);
+            this.ServerStatus.Location = new System.Drawing.Point(68, 29);
             this.ServerStatus.Name = "ServerStatus";
             this.ServerStatus.Size = new System.Drawing.Size(73, 13);
             this.ServerStatus.TabIndex = 3;
@@ -201,7 +201,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 29);
+            this.label3.Location = new System.Drawing.Point(12, 29);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 2;
@@ -210,7 +210,7 @@
             // AdditionalServerInfo
             // 
             this.AdditionalServerInfo.AutoSize = true;
-            this.AdditionalServerInfo.Location = new System.Drawing.Point(66, 48);
+            this.AdditionalServerInfo.Location = new System.Drawing.Point(68, 48);
             this.AdditionalServerInfo.Name = "AdditionalServerInfo";
             this.AdditionalServerInfo.Size = new System.Drawing.Size(0, 13);
             this.AdditionalServerInfo.TabIndex = 4;
@@ -269,7 +269,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(271, 142);
+            this.ClientSize = new System.Drawing.Size(244, 157);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
